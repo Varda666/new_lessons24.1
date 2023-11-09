@@ -9,9 +9,8 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=150, verbose_name='фамилия')
     phone = models.CharField(max_length=35, verbose_name='Номер телефона')
     country = models.CharField(max_length=150, verbose_name='Номер телефона')
-    img = models.ImageField(upload_to='media/', verbose_name='Аватар')
-    is_staff = models.BooleanField(default=False, verbose_name='Статус менеджера')
-    is_superuser = models.BooleanField(default=False, verbose_name='Статус администратора')
+    img = models.ImageField(upload_to='media/', default=None, verbose_name='Аватар')
+
 
 
     USERNAME_FIELD = 'email'
