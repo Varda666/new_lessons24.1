@@ -10,7 +10,7 @@ class Course(models.Model):
     name = models.CharField(max_length=150, verbose_name='Название курса', unique=True)
     img = models.ImageField(upload_to='media/', default=None, verbose_name='Картинка')
     description = models.TextField(max_length=500, verbose_name='Описание курса')
-    lessons_count = models.IntegerField(verbose_name='количество уроков в курсе')
+    lessons_count = models.IntegerField(default=0, verbose_name='количество уроков в курсе')
 
     class Meta:
         verbose_name = 'курс'
@@ -21,7 +21,7 @@ class Lesson(models.Model):
     img = models.ImageField(upload_to='media/', default=None, verbose_name='Картинка')
     description = models.TextField(max_length=500, verbose_name='Описание урока')
     link = models.URLField(verbose_name='Ссылка на видео')
-    course = models.ForeignKey(to='Course', to_field='name', verbose_name='курс', on_delete=models.PROTECT)
+    course = models.ForeignKey(to='Course', to_field='name', default=None, verbose_name='курс', on_delete=models.PROTECT)
 
 
     class Meta:

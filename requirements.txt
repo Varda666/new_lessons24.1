@@ -4,7 +4,8 @@ sqlparse==0.4.4
 tzdata==2023.3
 ipython
 psycopg2-binary
-
+django-filter
+pillow
 
 python-dotenv~=1.0.0
 APScheduler~=3.10.4
