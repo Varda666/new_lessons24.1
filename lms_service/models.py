@@ -11,6 +11,7 @@ class Course(models.Model):
     img = models.ImageField(upload_to='media/', default=None, verbose_name='Картинка')
     description = models.TextField(max_length=500, verbose_name='Описание курса')
     lessons_count = models.IntegerField(default=0, verbose_name='количество уроков в курсе')
+    user = models.ForeignKey(to='users.User', to_field='email', default=None, verbose_name='владелец', on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = 'курс'
@@ -22,6 +23,7 @@ class Lesson(models.Model):
     description = models.TextField(max_length=500, verbose_name='Описание урока')
     link = models.URLField(verbose_name='Ссылка на видео')
     course = models.ForeignKey(to='Course', to_field='name', default=None, verbose_name='курс', on_delete=models.PROTECT)
+    user = models.ForeignKey(to='users.User', to_field='email', default=None, verbose_name='владелец', on_delete=models.PROTECT)
 
 
     class Meta:
@@ -34,7 +36,7 @@ class Payment(models.Model):
         ('cash', 'cash'),
         ('transfer', 'transfer to the account')
     ]
-    user = models.ForeignKey(to='users.User', to_field='email', verbose_name='пользователь', on_delete=models.PROTECT)
+    user = models.ForeignKey(to='users.User', to_field='email', verbose_name='плательщик', on_delete=models.PROTECT)
     pay_date = models.DateField(verbose_name='дата оплаты')
     paid_course = models.ForeignKey(to='Course', to_field='name', verbose_name='оплаченный курс', blank=True, null=True, on_delete=models.PROTECT)
     paid_lesson = models.ForeignKey(to='Lesson', to_field='name', verbose_name='оплаченный урок', blank=True, null=True, on_delete=models.PROTECT)

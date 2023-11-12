@@ -6,6 +6,7 @@ ipython
 psycopg2-binary
 django-filter
 pillow
+djangorestframework-simplejwt
 
 python-dotenv~=1.0.0
 APScheduler~=3.10.4

@@ -3,7 +3,14 @@ from django.db import models
 
 # Create your models here.
 class User(AbstractUser):
+    member = 'member'
+    USER_ROLE_CHOISES = [
+        ('member', 'member'),
+        ('moderator', 'moderator')
+    ]
+
     username = None
+    user_role = models.CharField(choices=USER_ROLE_CHOISES, default=member, verbose_name='роль')
     email = models.EmailField(unique=True, verbose_name='email')
     first_name = models.CharField(max_length=150, verbose_name='имя')
     last_name = models.CharField(max_length=150, verbose_name='фамилия')
