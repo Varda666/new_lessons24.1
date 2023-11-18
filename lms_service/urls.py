@@ -20,7 +20,7 @@ urlpatterns = [
     path('payment/update/<int:pk>/', PaymentUpdateView.as_view(), name='lesson_update'),
     path('payment/create/', PaymentCreateView.as_view(), name='lesson_create'),
     path('payment/delete/<int:pk>/', PaymentDestroyView.as_view(), name='lesson_delete'),
-    path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+
 
     ]
 

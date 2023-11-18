@@ -40,6 +40,13 @@ class Payment(models.Model):
     pay_date = models.DateField(verbose_name='дата оплаты')
     paid_course = models.ForeignKey(to='Course', to_field='name', verbose_name='оплаченный курс', blank=True, null=True, on_delete=models.PROTECT)
     paid_lesson = models.ForeignKey(to='Lesson', to_field='name', verbose_name='оплаченный урок', blank=True, null=True, on_delete=models.PROTECT)
-    payment_amount = models.IntegerField(verbose_name='сумма оплаты')
+    payment_amount = models.PositiveIntegerField(verbose_name='сумма оплаты')
     payment_method = models.CharField(choices=PAYMENT_METHOD_CHOISES, default=transfer, verbose_name='способ оплаты')
 
+    class Meta:
+        constraints = (
+            models.CheckConstraint(
+                check=models.Q(paid_course__isnull=False) & models.Q(paid_lesson__isnull=False),
+                name='course_lesson_not_null'
+            ),
+        )

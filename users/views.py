@@ -4,6 +4,9 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthentic
 from users.models import User
 from lms_service.permissions import IsOwnerOrNot, IsOwner
 from users.serializers import UserSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+from lms_service.serializers.token import MyTokenObtainPairSerializer
 
 
 class UserCreateView(CreateAPIView):
@@ -33,3 +36,7 @@ class UserListView(ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
