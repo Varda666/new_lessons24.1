@@ -50,3 +50,5 @@ class Payment(models.Model):
                 name='course_lesson_not_null'
             ),
         )
+
+
