@@ -92,13 +92,7 @@ class ModelCreateTestCase(APITestCase):
         )
 
     def test_lesson_update(self):
-        data = {
-                'id': 1,
-                'name': 'Урок анг. яз 1/1',
-                'description': 'Знакомство с анг. языком',
-                'link': 'https://ru.stackoverflow.com/questions/1388409/django',
-                'course': 'Анг. язык для начинающих'
-                }
+        response = self.client.get('/update/1/')
         response = self.client.put(
             reverse('lms_service:lesson_update'),
             data=data
@@ -114,21 +108,8 @@ class ModelCreateTestCase(APITestCase):
         )
 
     def test_lesson_delete(self):
-        data = {
-            'id': 2,
-            'name': 'Урок анг. яз 2',
-            'description': 'Знакомство с анг. языком',
-            'link': 'https://ru.stackoverflow.com/questions/1388409/django',
-            'course': 'Анг. язык для начинающих'
-            }
-        response = self.client.delete(
-            reverse('lms_service:lesson_delete'),
-            data=data
-        )
-        self.assertEquals(
-            response.status_code,
-            status.HTTP_200_OK
-        )
+        response = self.client.delete('/delete/1/')
+        self.assertEqual(response.status_code, 204)
 
         self.assertEquals(
             Lesson.objects.all().count(),
