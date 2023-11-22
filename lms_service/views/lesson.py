@@ -27,7 +27,7 @@ class LessonRetrieveView(RetrieveAPIView):
 class LessonDestroyView(DestroyAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsOwner]
 
 
 class LessonListView(ListAPIView):

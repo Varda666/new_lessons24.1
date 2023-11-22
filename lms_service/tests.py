@@ -15,7 +15,6 @@ class ModelCreateTestCase(APITestCase):
             last_name='Ivanova',
             phone='79118245323',
             country='RF'
-
         )
         self.course = Course.objects.create(
             name='Анг. язык для начинающих',
@@ -53,7 +52,7 @@ class ModelCreateTestCase(APITestCase):
         )
 
         self.assertEqual(
-            response.json(),
+            response,
             {
                 "count": 1,
                 "next": None,
@@ -92,23 +91,21 @@ class ModelCreateTestCase(APITestCase):
         )
 
     def test_lesson_update(self):
-        response = self.client.get('/update/1/')
-        response = self.client.put(
-            reverse('lms_service:lesson_update'),
-            data=data
-        )
+        data = {'name': 'Урок франц. яз 2',
+                'description': 'Знакомство с франц. языком',
+                'link': 'https://ru.stackoverflow.com/questions/1388409/django',
+                'course': 'Анг. язык для начинающих'
+                }
+        self.client.post('/update/2/', data=data)
+        response = self.client.get('/2/')
+        dict_response = response.json()
         self.assertEquals(
-            response.status_code,
-            status.HTTP_200_OK
-        )
-
-        self.assertEquals(
-            Lesson.objects.all().count(),
-            2
+            dict_response["results"]["name"],
+            'Урок франц. яз 2'
         )
 
     def test_lesson_delete(self):
-        response = self.client.delete('/delete/1/')
+        response = self.client.delete('/delete/3/')
         self.assertEqual(response.status_code, 204)
 
         self.assertEquals(

@@ -3,10 +3,9 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthentic
 
 from users.models import User, UserSubscriptionUpdates
 from lms_service.permissions import IsOwnerOrNot, IsOwner
-from users.serializers import UserSerializer, UserSubscriptionUpdatesSerializer
+from users.serializers import UserSerializer, UserSubscriptionUpdatesSerializer, MyTokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from lms_service.serializers.token import MyTokenObtainPairSerializer
 
 
 class UserCreateView(CreateAPIView):

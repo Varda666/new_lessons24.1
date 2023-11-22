@@ -1,7 +1,7 @@
 from django.urls import path
 
-from users.views import UserListView, UserRetrieveView, UserUpdateView, UserCreateView, UserDestroyView, \
-    MyTokenObtainPairView, UserSubscriptionUpdatesCreateView, UserSubscriptionUpdatesDestroyView
+from users.views import (UserListView, UserRetrieveView, UserUpdateView, UserCreateView, UserDestroyView,
+                         MyTokenObtainPairView, UserSubscriptionUpdatesCreateView, UserSubscriptionUpdatesDestroyView)
 
 urlpatterns = [
     path('', UserListView.as_view(), name='user_list'),
