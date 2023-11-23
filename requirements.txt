@@ -11,3 +11,4 @@ djangorestframework-simplejwt
 python-dotenv~=1.0.0
 APScheduler~=3.10.4
 djangorestframework~=3.14.0
+stripe~=7.6.0
