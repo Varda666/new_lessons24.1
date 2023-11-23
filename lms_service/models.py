@@ -42,6 +42,9 @@ class Payment(models.Model):
     paid_lesson = models.ForeignKey(to='Lesson', to_field='name', verbose_name='оплаченный урок', blank=True, null=True, on_delete=models.PROTECT)
     payment_amount = models.PositiveIntegerField(verbose_name='сумма оплаты')
     payment_method = models.CharField(choices=PAYMENT_METHOD_CHOISES, default=transfer, verbose_name='способ оплаты')
+    is_confirmed = models.BooleanField(default=False, verbose_name='статус платежа')
+    pay_id = models.CharField(default=None, verbose_name='id платежа stripe')
+
 
     class Meta:
         constraints = (
