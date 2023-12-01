@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'users',
     'drf_yasg',
     'corsheaders',
+    'django_celery_beat',
     ]
 
 REST_FRAMEWORK = {
@@ -56,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'lms_service.middleware.SetLastVisitMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -173,3 +175,10 @@ CELERY_TASK_TRACK_STARTED = True
 
 # Максимальное время на выполнение задачи
 CELERY_TASK_TIME_LIMIT = 30 * 60
+
+CELERY_BEAT_SCHEDULE = {
+     'task-name': {
+         'task': 'lms_service.tasks.check_last_visit',  # Путь к задаче
+         'schedule': timedelta(days=30),  # Расписание выполнения задачи (например, каждые 10 минут)
+     },
+ }

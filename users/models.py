@@ -1,3 +1,5 @@
+from datetime import datetime, date
+
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -18,6 +20,7 @@ class User(AbstractUser):
     phone = models.CharField(max_length=35, verbose_name='Номер телефона')
     country = models.CharField(max_length=150, verbose_name='страна')
     img = models.ImageField(upload_to='media/', default=None, verbose_name='Аватар')
+    last_visit = models.DateField(default=date.now(), verbose_name='Дата последнего посещения')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

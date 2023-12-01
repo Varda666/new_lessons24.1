@@ -17,6 +17,7 @@ class CourseSerializer(serializers.ModelSerializer):
         course = Course.objects.get(pk=instance.id)
         Course.objects.filter(pk=instance.id).update(**validated_data)
 
+
         return instance
 
     class Meta:
