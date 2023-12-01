@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthentic
 from lms_service.models import Lesson
 from lms_service.permissions import IsModerator, IsOwner
 from lms_service.serializers.lesson import LessonSerializer
+from lms_service.tasks import _send_mail_email
 
 
 class LessonCreateView(CreateAPIView):

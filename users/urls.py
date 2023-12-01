@@ -10,6 +10,6 @@ urlpatterns = [
     path('create/', UserCreateView.as_view(), name='user_create'),
     path('delete/<int:pk>/', UserDestroyView.as_view(), name='user_delete'),
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('token/', UserSubscriptionUpdatesCreateView.as_view(), name='subscription_create'),
-    path('token/', UserSubscriptionUpdatesDestroyView.as_view(), name='subscription_delete'),
+    path('subscription/create/', UserSubscriptionUpdatesCreateView.as_view(), name='subscription_create'),
+    path('subscription/delete/', UserSubscriptionUpdatesDestroyView.as_view(), name='subscription_delete'),
     ]

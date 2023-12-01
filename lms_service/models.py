@@ -43,7 +43,7 @@ class Payment(models.Model):
     payment_amount = models.PositiveIntegerField(verbose_name='сумма оплаты')
     payment_method = models.CharField(choices=PAYMENT_METHOD_CHOISES, default=transfer, verbose_name='способ оплаты')
     is_confirmed = models.BooleanField(default=False, verbose_name='статус платежа')
-    pay_id = models.CharField(default=None, verbose_name='id платежа stripe')
+    pay_id = models.CharField(default=None, verbose_name='id платежа stripe', blank=True, null=True)
 
 
     class Meta:
