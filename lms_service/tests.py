@@ -17,8 +17,9 @@ class ModelCreateTestCase(APITestCase):
             last_name='Last',
             phone='8976',
             country='RF',
-            password='test'
         )
+        self.user.set_password('123qwe')
+        self.user.save()
         self.client.force_authenticate(user=self.user)
         self.course = Course.objects.create(
             name='Анг. язык для начинающих',
@@ -37,10 +38,10 @@ class ModelCreateTestCase(APITestCase):
         )
 
         self.payment = Payment.objects.create(
-            user=self.user,
+            user=User.objects.get(email='test@mail.com'),
             pay_date='2022-11-21',
-            paid_course=self.course,
-            paid_lesson=self.lesson,
+            paid_course=Course.objects.get(name='Анг. язык для начинающих'),
+            paid_lesson=Lesson.objects.get(name='Урок анг. яз 1'),
             payment_amount=3000,
             payment_method='transfer',
             pay_id=12344321,
@@ -58,31 +59,25 @@ class ModelCreateTestCase(APITestCase):
 
         self.assertEqual(
             response.json(),
-            {
-                "count": 1,
-                "next": None,
-                "previous": None,
-                "results": [
-                    {
-                        "course": self.course.name,
-                        "description": self.lesson.description,
-                        "id": 1,
-                        "img": None,
-                        "link": self.lesson.link,
-                        "name": self.lesson.name,
-                        'user': self.lesson.user.email,
-                    }
-                ]
-            }
-
+            [
+                {
+                    "id": self.lesson.id,
+                    "link": self.lesson.link,
+                    "name": self.lesson.name,
+                    "img": None,
+                    "description": self.lesson.description,
+                    "course": Course.objects.get(),
+                    "user": self.lesson.user.email,
+                },
+            ]
         )
 
     def test_lesson_create(self):
         data = {'name': 'Урок анг. яз 2',
                 'description': 'Знакомство с анг. языком',
                 'link': 'https://ru.stackoverflow.com/questions/1388409/django',
-                'course': 'Анг. язык для начинающих',
-                'user': self.user
+                'course': Course.objects.get(name='Анг. язык для начинающих'),
+                'user': User.objects.get(email='test@mail.com'),
                 }
         response = self.client.post(
             reverse('lms_service:lesson_create'),
@@ -99,23 +94,22 @@ class ModelCreateTestCase(APITestCase):
         )
 
     def test_lesson_update(self):
-        response = self.client.get(
-            reverse(
-                'lms_service:lesson_update',
-                kwargs={'pk': self.lesson.pk},
-            ))
+        # responce = self.client.get(
+        #     reverse(
+        #         'lms_service:lesson_detail',
+        #         kwargs={'pk': self.lesson.pk},
+        #     ))
         data = {'name': 'Урок франц. яз 2',
                 'description': 'Знакомство с франц. языком',
                 'link': 'https://ru.stackoverflow.com/questions/1388409/django',
-                'course': 'Анг. язык для начинающих'
+                'course': Course.objects.get(name='Анг. язык для начинающих')
                 }
-        self.client.post(
+        responce = self.client.post(
             reverse(
                 'lms_service:lesson_update',
-                kwargs={'pk': self.lesson.pk}
-        ),
+                kwargs={'pk': Lesson.objects.get(name='Урок анг. яз 1').pk}),
             data=data)
-        dict_response = response.json()
+        dict_response = responce.json()
         print('Наш ответ', dict_response)
         self.assertEquals(
             dict_response.get('name'),

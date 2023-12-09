@@ -12,18 +12,18 @@ from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView as BaseLogoutView
 
 
-class LoginView(BaseLoginView):
-    template_name = 'users/login.html'
-    success_url = reverse_lazy('users:profile')
-
-
-class LogoutView(BaseLogoutView):
-    pass
-
-
 class UserCreateView(CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    def form_valid(self, form):
+        if form.is_valid():
+            self.object = form.save()
+            # Сохранение объекта перед тем, как установить ему пароль
+            self.object.set_password(self.object.password)
+            self.object.save()
+
+        return super().form_valid(form)
 
 
 class UserSubscriptionUpdatesCreateView(CreateAPIView):
@@ -40,9 +40,6 @@ class UserUpdateView(UpdateAPIView):
         if check_last_visit(pk=self.request.user):
             pass
         self.request.user.is_active = False
-
-
-
 
 class UserRetrieveView(RetrieveAPIView):
     queryset = User.objects.all(), UserSubscriptionUpdates.objects.all()

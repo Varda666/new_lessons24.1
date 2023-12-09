@@ -10,4 +10,5 @@ class SetLastVisitMiddleware:
         if request.user.is_authenticated():
             # Update last visit time after request finished processing
             User.objects.filter(pk=request.user.pk).update(last_visit=now())
-        return self.get_response(request)
+        else:
+            pass

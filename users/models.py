@@ -20,7 +20,7 @@ class User(AbstractUser):
     phone = models.CharField(max_length=35, verbose_name='Номер телефона')
     country = models.CharField(max_length=150, verbose_name='страна')
     img = models.ImageField(upload_to='media/', default=None, verbose_name='Аватар')
-    last_visit = models.DateField(default=date.now(), verbose_name='Дата последнего посещения')
+    last_visit = models.DateField(default=datetime.now(), verbose_name='Дата последнего посещения')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -28,5 +28,5 @@ class User(AbstractUser):
 
 class UserSubscriptionUpdates(models.Model):
     status = models.BooleanField(default=False, verbose_name="статус подписки")
-    user = models.ForeignKey(to='User', to_field='email', verbose_name='пользователь', on_delete=models.PROTECT)
+    user = models.ForeignKey(to='User', to_field='email', verbose_name='пользователь', on_delete=models.DO_NOTHING)
     course = models.ForeignKey(to='lms_service.Course', to_field='name', default=None, verbose_name='курс', on_delete=models.PROTECT)
