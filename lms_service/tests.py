@@ -37,15 +37,7 @@ class ModelCreateTestCase(APITestCase):
 
         )
 
-        self.payment = Payment.objects.create(
-            user=User.objects.get(email='test@mail.com'),
-            pay_date='2022-11-21',
-            paid_course=Course.objects.get(name='Анг. язык для начинающих'),
-            paid_lesson=Lesson.objects.get(name='Урок анг. яз 1'),
-            payment_amount=3000,
-            payment_method='transfer',
-            pay_id=12344321,
-        )
+
 
     def test_get_list(self):
         response = self.client.get(
@@ -66,7 +58,7 @@ class ModelCreateTestCase(APITestCase):
                     "name": self.lesson.name,
                     "img": None,
                     "description": self.lesson.description,
-                    "course": Course.objects.get(),
+                    "course": Course.objects.get(pk=self.course.pk).name,
                     "user": self.lesson.user.email,
                 },
             ]
@@ -76,7 +68,7 @@ class ModelCreateTestCase(APITestCase):
         data = {'name': 'Урок анг. яз 2',
                 'description': 'Знакомство с анг. языком',
                 'link': 'https://ru.stackoverflow.com/questions/1388409/django',
-                'course': Course.objects.get(name='Анг. язык для начинающих'),
+                'course': Course.objects.get(name='Анг. язык для начинающих').name,
                 'user': User.objects.get(email='test@mail.com'),
                 }
         response = self.client.post(
@@ -102,17 +94,16 @@ class ModelCreateTestCase(APITestCase):
         data = {'name': 'Урок франц. яз 2',
                 'description': 'Знакомство с франц. языком',
                 'link': 'https://ru.stackoverflow.com/questions/1388409/django',
-                'course': Course.objects.get(name='Анг. язык для начинающих')
+                'course': Course.objects.get(name='Анг. язык для начинающих').name
                 }
-        responce = self.client.post(
+        responce = self.client.put(
             reverse(
                 'lms_service:lesson_update',
-                kwargs={'pk': Lesson.objects.get(name='Урок анг. яз 1').pk}),
-            data=data)
-        dict_response = responce.json()
-        print('Наш ответ', dict_response)
+                kwargs={'pk': self.lesson.pk}),
+            data=data,
+            format='json')
         self.assertEquals(
-            dict_response.get('name'),
+            Lesson.objects.get(pk=self.lesson.pk).name,
             'Урок франц. яз 2'
         )
 
@@ -123,5 +114,5 @@ class ModelCreateTestCase(APITestCase):
         self.assertEqual(response.status_code, 204)
         self.assertEquals(
             Lesson.objects.all().count(),
-            1
+            0
         )

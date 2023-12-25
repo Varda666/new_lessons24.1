@@ -36,10 +36,10 @@ class Payment(models.Model):
         ('cash', 'cash'),
         ('transfer', 'transfer to the account')
     ]
-    user = models.ForeignKey(to='users.User', to_field='email', verbose_name='плательщик', on_delete=models.DO_NOTHING )
+    user = models.ForeignKey(to='users.User', to_field='email', verbose_name='плательщик', on_delete=models.DO_NOTHING)
     pay_date = models.DateField(verbose_name='дата оплаты')
-    paid_course = models.ForeignKey(to='Course', to_field='name', verbose_name='оплаченный курс', blank=True, null=True, on_delete=models.DO_NOTHING )
-    paid_lesson = models.ForeignKey(to='Lesson', to_field='name', verbose_name='оплаченный урок', blank=True, null=True, on_delete=models.DO_NOTHING )
+    paid_course = models.ForeignKey(to='Course', verbose_name='оплаченный курс', blank=True, null=True, on_delete=models.DO_NOTHING)
+    paid_lesson = models.ForeignKey(to='Lesson', verbose_name='оплаченный урок', blank=True, null=True, on_delete=models.DO_NOTHING)
     payment_amount = models.PositiveIntegerField(verbose_name='сумма оплаты')
     payment_method = models.CharField(choices=PAYMENT_METHOD_CHOISES, default=transfer, verbose_name='способ оплаты')
     is_confirmed = models.BooleanField(default=False, verbose_name='статус платежа')
