@@ -41,9 +41,9 @@ class Payment(models.Model):
     paid_course = models.ForeignKey(to='Course', verbose_name='оплаченный курс', blank=True, null=True, on_delete=models.DO_NOTHING)
     paid_lesson = models.ForeignKey(to='Lesson', verbose_name='оплаченный урок', blank=True, null=True, on_delete=models.DO_NOTHING)
     payment_amount = models.PositiveIntegerField(verbose_name='сумма оплаты')
-    payment_method = models.CharField(choices=PAYMENT_METHOD_CHOISES, default=transfer, verbose_name='способ оплаты')
+    payment_method = models.CharField(max_length=50, choices=PAYMENT_METHOD_CHOISES, default=transfer, verbose_name='способ оплаты')
     is_confirmed = models.BooleanField(default=False, verbose_name='статус платежа')
-    pay_id = models.CharField(default=None, verbose_name='id платежа stripe', blank=True, null=True)
+    pay_id = models.CharField(max_length=50, default=None, verbose_name='id платежа stripe', blank=True, null=True)
 
 
     # class Meta:

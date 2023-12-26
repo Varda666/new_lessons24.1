@@ -13,7 +13,7 @@ class User(AbstractUser):
     ]
 
     username = None
-    user_role = models.CharField(choices=USER_ROLE_CHOISES, default=member, verbose_name='роль')
+    user_role = models.CharField(max_length=50, choices=USER_ROLE_CHOISES, default=member, verbose_name='роль')
     email = models.EmailField(unique=True, verbose_name='email')
     first_name = models.CharField(max_length=150, verbose_name='имя')
     last_name = models.CharField(max_length=150, verbose_name='фамилия')
